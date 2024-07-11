@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/images"/>
+    <qresource prefix="/">
+        <file>shaders/kaleidoscope.frag</file>
+        <file>shaders/water.frag</file>
+        <file>shaders/clouds.frag</file>
+        <file>shaders/pinknoise.frag</file>
+        <file>shaders/rainbow.frag</file>
+        <file>shaders/galaxy.frag</file>
+        <file>images/garagegunters_1080x1920.jpg</file>
+        <file>images/garagegunters_1920x1080.jpg</file>
+        <file>images/youtube_logo.svg</file>
+        <file>images/sleepmode.svg</file>
+        <file>images/rotate.svg</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/GGCloseButton.qml</file>
+        <file>qml/GGBlurDialog.qml</file>
+        <file>qml/YouTubePlayer.qml</file>
+        <file>qml/GGWindow.qml</file>
+        <file>qml/YouTubeWindow.qml</file>
+        <file>qml/GGDesktop.qml</file>
+        <file>qml/GGDock.qml</file>
+        <file>qml/GGDockButton.qml</file>
+        <file>qml/GGScreenSaver.qml</file>
+        <file>qml/GGWallpaper.qml</file>
+        <file>qml/secrets.js</file>
+    </qresource>
+</RCC>
