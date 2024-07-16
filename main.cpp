@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtWebEngine>
 #include "toucheventfilter.h"
+#include "qtzeroconf/qzeroconf.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +15,10 @@ int main(int argc, char *argv[])
 
 	TouchEventFilter* filter = new TouchEventFilter;
 	app.installEventFilter(filter);
+
+	QZeroConf zeroconf;
+	zeroconf.startServicePublish("GameGrid", "_clipboard._tcp", nullptr, "local", 30564);
+
 
 
 	QQmlApplicationEngine engine;
