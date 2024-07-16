@@ -117,10 +117,6 @@ Item {
                 </body>
             </html>", "https://www.youtube.com"); // "about:blank");
         }
-
-
-
-
     }
 
     function playVideo() {

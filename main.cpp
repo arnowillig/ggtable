@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtWebEngine>
 #include "toucheventfilter.h"
+#include "clipboardhandler.h"
 #include "qtzeroconf/qzeroconf.h"
 
 int main(int argc, char *argv[])
@@ -12,14 +13,13 @@ int main(int argc, char *argv[])
 #endif
 	QtWebEngine::initialize();
 	QGuiApplication app(argc, argv);
+	ClipboardHandler clipboardHandler;
 
 	TouchEventFilter* filter = new TouchEventFilter;
 	app.installEventFilter(filter);
 
 	QZeroConf zeroconf;
 	zeroconf.startServicePublish("GameGrid", "_clipboard._tcp", nullptr, "local", 30564);
-
-
 
 	QQmlApplicationEngine engine;
 	const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
 		}
 	}, Qt::QueuedConnection);
 
+	engine.rootContext()->setContextProperty("clipboardHandler", &clipboardHandler);
 	engine.load(url);
 
 	QObject* rootObject = engine.rootObjects().at(0);

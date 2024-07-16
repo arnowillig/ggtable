@@ -54,7 +54,7 @@ GGWindow {
 
 	MouseArea {
 		anchors.fill: youTubePlayer
-		onClicked: { youTubePlayer.playVideo(); }
+		onClicked: { youTubeWindow.setActive(); youTubePlayer.playVideo(); }
 	}
 
 	Text {

@@ -19,26 +19,7 @@ Rectangle {
 			id: youTubeButton
 			image: "qrc:/images/youtube_logo.svg"
 			onClicked: {
-				let component = Qt.createComponent("YouTubeWindow.qml");
-				if (component.status === Component.Ready) {
-					finishCreation(component);
-				} else {
-					component.statusChanged.connect(()=>{finishCreation(component)});
-				}
-			}
-			function finishCreation(component) {
-				if (component.status === Component.Ready) {
-					let sprite = component.createObject(ggDesktop, {
-										    videoId: "f4s1h2YETNY",
-										    x: Math.floor(Math.random()*(ggDesktop.width-384)),
-										    y: Math.floor(Math.random()*(ggDesktop.height-216-50))});
-					if (sprite === null) {
-						console.log("Error creating object");
-					}
-				} else if (component.status === Component.Error) {
-					// Error Handling
-					console.log("Error loading component:", component.errorString());
-				}
+				addWindow("YouTubeWindow", { "videoId": "f4s1h2YETNY" });
 			}
 		}
 
@@ -54,4 +35,6 @@ Rectangle {
 			onClicked: { screenSaver.active = true; }
 		}
 	}
+
+
 }

@@ -6,13 +6,13 @@ import QtWebChannel 1.7
 ApplicationWindow {
 	id: appWindow
 	visible: true
-	width: 1920
-	height: 1080
-	minimumWidth: width
-	maximumWidth: width
-	minimumHeight: height
-	maximumHeight: height
-	title: "Garage Gunter Table"
+	width: 1920 / 1.2
+	height: 1080 / 1.2
+	minimumWidth:  maximumWidth / 2
+	minimumHeight: maximumHeight / 2
+	maximumWidth: 1920
+	maximumHeight: 1080
+	title: "GameGrid"
 	color: "#1a191e"
 
 	function restartScreensaverTimer() {
