@@ -2,16 +2,11 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtWebEngine 1.11
 import QtWebChannel 1.7
+import "secrets.js" as Secrets
 
 ApplicationWindow {
 	id: appWindow
 	visible: true
-	width: 1920 / 1.2
-	height: 1080 / 1.2
-	minimumWidth:  maximumWidth / 2
-	minimumHeight: maximumHeight / 2
-	maximumWidth: 1920
-	maximumHeight: 1080
 	title: "GameGrid"
 	color: "#1a191e"
 

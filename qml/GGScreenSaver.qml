@@ -8,7 +8,7 @@ Item {
 	property string shader: "clouds" // kaleidoscope
 	property alias timeout: screensaverTimer.interval
 	Behavior on opacity { NumberAnimation { duration:  1000 } }
-	property var shaders: (["galaxy"]) // "water", "rainbow", "kaleidoscope", "clouds", "galaxy", "pinknoise"])
+	property var shaders: (["galaxy", "water"]) // "water", "rainbow", "kaleidoscope", "clouds", "galaxy", "pinknoise"])
 	onActiveChanged: {
 		if (active) {
 			shader = shaders[Math.floor(Math.random() * shaders.length)];

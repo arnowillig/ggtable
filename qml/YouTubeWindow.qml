@@ -69,7 +69,7 @@ GGWindow {
 		font.pixelSize: 28
 		minimumPixelSize: 8
 		fontSizeMode: Text.Fit
-		color: "#ffffff"
+		color: "#222222"
 		clip: true
 	}
 }

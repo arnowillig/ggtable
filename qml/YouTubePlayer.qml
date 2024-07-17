@@ -4,41 +4,41 @@ import QtWebEngine 1.11
 import QtWebChannel 1.7
 
 Item {
-    id: youTubePlayer
-    property alias isPlaying: webEngineView.isPlaying
-    property alias videoId: webEngineView.videoId
-    property alias videoTitle: qtBridge.videoTitle
+	id: youTubePlayer
+	property alias isPlaying: webEngineView.isPlaying
+	property alias videoId: webEngineView.videoId
+	property alias videoTitle: qtBridge.videoTitle
 
-    WebEngineView {
-        id: webEngineView
-        antialiasing: true
-        anchors.fill: parent
-        settings.playbackRequiresUserGesture: false
-        settings.allowRunningInsecureContent: true
-        settings.localContentCanAccessRemoteUrls: true
-        settings.showScrollBars: false
-        settings.unknownUrlSchemePolicy: WebEngineSettings.AllowAllUnknownUrlSchemes
-        url: "about:blank"
-        enabled: false
-        webChannel: WebChannel { registeredObjects: [qtBridge] }
+	WebEngineView {
+		id: webEngineView
+		antialiasing: true
+		anchors.fill: parent
+		settings.playbackRequiresUserGesture: false
+		settings.allowRunningInsecureContent: true
+		settings.localContentCanAccessRemoteUrls: true
+		settings.showScrollBars: false
+		settings.unknownUrlSchemePolicy: WebEngineSettings.AllowAllUnknownUrlSchemes
+		url: "about:blank"
+		enabled: false
+		webChannel: WebChannel { registeredObjects: [qtBridge] }
 
-        property string videoId: "vRqCs2SUdxY"
-        property bool isPlaying: false
-        // url: "https://www.youtube.com/embed/hrQSseedNWk?enablejsapi=1&autoplay=1&controls=1&rel=0&fs=1&iv_load_policy=3&modestbranding=1"
+		property string videoId: "vRqCs2SUdxY"
+		property bool isPlaying: false
+		// url: "https://www.youtube.com/embed/hrQSseedNWk?enablejsapi=1&autoplay=1&controls=1&rel=0&fs=1&iv_load_policy=3&modestbranding=1"
 
-        onJavaScriptConsoleMessage: {
-            console.log("CONSOLE: ", message);
-        }
+		onJavaScriptConsoleMessage: {
+			console.log("CONSOLE: ", message);
+		}
 
-        QtObject {
-            id: qtBridge
-            WebChannel.id: "backend"
-            property string videoTitle: ""
-            function setIsPlaying(playing) { isPlaying = playing; }
-        }
+		QtObject {
+			id: qtBridge
+			WebChannel.id: "backend"
+			property string videoTitle: ""
+			function setIsPlaying(playing) { isPlaying = playing; }
+		}
 
-        Component.onCompleted: {
-            webEngineView.loadHtml("<html><body>
+		Component.onCompleted: {
+			webEngineView.loadHtml("<html><body>
                     <style>iframe { width: 100%; height: 100%; border: none; }</style>
                     <div id=\"player\"></div>
                     <script type=\"text/javascript\" src=\"qrc:///qtwebchannel/qwebchannel.js\"></script>
@@ -73,8 +73,7 @@ Item {
                             iframeDoc.head.appendChild(style);
                         }
                         function onPlayerReady(event) {
-                            // console.log('onPlayerReady()', JSON.stringify(event));
-// event.target.videoTitle
+			    // console.log('onPlayerReady()', JSON.stringify(event)); // event.target.videoTitle
 
                             new QWebChannel(qt.webChannelTransport, function(channel) {
                                 backend = channel.objects.backend;
@@ -116,40 +115,40 @@ Item {
                     </script>
                 </body>
             </html>", "https://www.youtube.com"); // "about:blank");
-        }
-    }
+		}
+	}
 
-    function playVideo() {
-        webEngineView.runJavaScript("playVideo();")
-    }
+	function playVideo() {
+		webEngineView.runJavaScript("playVideo();")
+	}
 
-    function pauseVideo() {
-        webEngineView.runJavaScript("pauseVideo();")
-    }
+	function pauseVideo() {
+		webEngineView.runJavaScript("pauseVideo();")
+	}
 
-    Item {
-        id: pauseIcon
-        anchors.centerIn: parent
-        width: 50
-        height: 50
-        opacity: webEngineView.isPlaying ? 0.0 : 0.5
-        visible: opacity>0
-        Behavior on opacity { NumberAnimation {} }
+	Item {
+		id: pauseIcon
+		anchors.centerIn: parent
+		width: 50
+		height: 50
+		opacity: webEngineView.isPlaying ? 0.0 : 0.5
+		visible: opacity>0
+		Behavior on opacity { NumberAnimation {} }
 
-        Rectangle {
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            width: Math.floor(parent.width*0.35)
-            color: "#ffffff"
-        }
+		Rectangle {
+			anchors.left: parent.left
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
+			width: Math.floor(parent.width*0.35)
+			color: "#ffffff"
+		}
 
-        Rectangle {
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            width: Math.floor(parent.width*0.35)
-            color: "#ffffff"
-        }
-    }
+		Rectangle {
+			anchors.right: parent.right
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
+			width: Math.floor(parent.width*0.35)
+			color: "#ffffff"
+		}
+	}
 }

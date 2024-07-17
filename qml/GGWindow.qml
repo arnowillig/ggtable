@@ -7,13 +7,16 @@ Item {
 	height: 240
 	visible: opacity>0
 	opacity: 1
+	z: parent.windowList.indexOf(ggWindow) + 1
+	anchors.fill: isFullscreen ? parent : undefined
+	property string uuid: ""
 	property int cornerRadius: 32
 	property int minWidth:  320
 	property int minHeight: 240
+	property bool isFullscreen: false
 	property bool isActiveWindow: false
 	default property alias childArea: contentArea.children
-
-	z: parent.windowList.indexOf(ggWindow) + 1; // isActiveWindow ? 10 : 1
+	property var lastSize: ({})
 
 	signal resized()
 	signal clicked()
@@ -108,10 +111,7 @@ Item {
 			drag.maximumX: ggWindow.parent.width  - ggWindow.x - parent.width
 			drag.maximumY: ggWindow.parent.height - ggWindow.y - parent.height
 			onReleased: { resizeTimer.stop(); ggWindow.resized(); ggWindow.setActive(); }
-			onPressed: {
-				ggWindow.clicked();
-			}
-
+			onPressed: { ggWindow.setActive(); }
 		}
 	}
 
@@ -180,16 +180,16 @@ Item {
 		property int maxSizeW: ggWindow.parent.width  - 20;
 		property int maxSizeH: ggWindow.parent.height - 20;
 		onClicked: {
-			if (isMaxSize) {
-				ggWindow.width  = ggWindow.minWidth  + 40;
-				ggWindow.height = ggWindow.minHeight + 40;
+			if (ggWindow.isFullscreen) {
+				ggWindow.isFullscreen = false;
+				ggWindow.x = lastSize.x;
+				ggWindow.y = lastSize.y;
+				ggWindow.width = lastSize.width;
+				ggWindow.height = lastSize.height;
 			} else {
-				ggWindow.width  = maxSizeW;
-				ggWindow.height = maxSizeH;
+				lastSize = { "x": ggWindow.x, "y": ggWindow.y, "width": ggWindow.width, "height": ggWindow.height };
+				ggWindow.isFullscreen = true;
 			}
-
-			ggWindow.x = (ggWindow.parent.width  - ggWindow.width)  / 2;
-			ggWindow.y = (ggWindow.parent.height - ggWindow.height) / 2;
 			ggWindow.resized();
 		}
 	}

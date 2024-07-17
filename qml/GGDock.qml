@@ -24,6 +24,13 @@ Rectangle {
 		}
 
 		GGDockButton {
+			id: windowButton
+			onClicked: {
+				addWindow("GGWindow", {});
+			}
+		}
+
+		GGDockButton {
 			id: rotateButton
 			image: "qrc:/images/rotate.svg"
 			onClicked: { rotationArea.rotation = (rotationArea.rotation + 90) % 360; }

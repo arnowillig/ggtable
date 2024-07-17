@@ -54,7 +54,7 @@ void main() {
 	p += .2 * vec3(sin(speed*iTime / 16.), sin(speed*iTime / 12.),  sin(speed*iTime / 128.));
 
 	float freqs[4];
-	//Sound
+
 	freqs[0] = texture2D(source, vec2(0.01, 0.25)).x;
 	freqs[1] = texture2D(source, vec2(0.07, 0.25)).x;
 	freqs[2] = texture2D(source, vec2(0.15, 0.25)).x;

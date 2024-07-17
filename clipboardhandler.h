@@ -8,16 +8,23 @@
 
 class ClipboardHandler : public QObject {
 	Q_OBJECT
+	Q_PROPERTY(QString content READ content WRITE setContent NOTIFY contentChanged)
 public:
 	explicit ClipboardHandler(QObject* parent = nullptr);
 
+	QString content() const;
+	void setContent(const QString& content);
+
 signals:
-	void gotYouTubeLink(const QString& videoId);
+	void gotLink(const QString& type, const QString& data);
+
+	void contentChanged();
 
 public slots:
 	void checkClipboard();
 
 private:
+	QString _content;
 	QClipboard* _clipboard = nullptr;
 };
 

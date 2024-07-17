@@ -6,11 +6,13 @@ CONFIG += c++11
 SOURCES += \
         clipboardhandler.cpp \
         main.cpp \
-        toucheventfilter.cpp
+        toucheventfilter.cpp \
+        webserver.cpp
 
 HEADERS += \
 	clipboardhandler.h \
-	toucheventfilter.h
+	toucheventfilter.h \
+	webserver.h
 
 RESOURCES += qml.qrc \
 	resources.qrc
@@ -23,3 +25,12 @@ QML_DESIGNER_IMPORT_PATH =
 unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
+equals(QMAKE_HOST.name, rosetta) { CONFIG += devel }
+
+CONFIG(devel) {
+	DEFINES += SCREEN_WIDTH=1600
+	DEFINES += SCREEN_HEIGHT=900
+} else {
+	DEFINES += SCREEN_WIDTH=1920
+	DEFINES += SCREEN_HEIGHT=1080
+}

@@ -4,6 +4,7 @@
 #include "toucheventfilter.h"
 #include "clipboardhandler.h"
 #include "qtzeroconf/qzeroconf.h"
+#include "webserver.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,9 +22,12 @@ int main(int argc, char *argv[])
 	QZeroConf zeroconf;
 	zeroconf.startServicePublish("GameGrid", "_clipboard._tcp", nullptr, "local", 30564);
 
+	Webserver webserver;
+
+
 	QQmlApplicationEngine engine;
 	const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
-	QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject *obj, const QUrl &objUrl) {
+	QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app, [url](QObject* obj, const QUrl& objUrl) {
 		if (!obj && url == objUrl) {
 			QCoreApplication::exit(-1);
 		}
@@ -33,6 +37,12 @@ int main(int argc, char *argv[])
 	engine.load(url);
 
 	QObject* rootObject = engine.rootObjects().at(0);
+	rootObject->setProperty("width",         SCREEN_WIDTH);
+	rootObject->setProperty("height",         SCREEN_HEIGHT);
+	rootObject->setProperty("minimumWidth",  SCREEN_WIDTH);
+	rootObject->setProperty("maximumWidth",  SCREEN_WIDTH);
+	rootObject->setProperty("minimumHeight", SCREEN_HEIGHT);
+	rootObject->setProperty("maximumHeight", SCREEN_HEIGHT);
 
 	QObject::connect(filter, &TouchEventFilter::touchDetected, rootObject, [rootObject]() {
 		QMetaObject::invokeMethod(rootObject, "restartScreensaverTimer");

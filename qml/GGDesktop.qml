@@ -29,9 +29,16 @@ Item {
 		screenSaver.restartScreensaverTimer();
 	}
 
+	function generateUUID() {
+		function s4() {
+			return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+		}
+		return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+	}
 	function addWindow(windowType, params) {
 		let component = Qt.createComponent(windowType + ".qml");
 		let obj = params;
+		obj.uuid = generateUUID();
 		obj.x = Math.floor(Math.random() * (ggDesktop.width  - 384));
 		obj.y = Math.floor(Math.random() * (ggDesktop.height - 266));
 		obj.z = windowList.length + 1;
@@ -45,15 +52,16 @@ Item {
 		windowList.push(window);
 		for (let i = 0; i < windowList.length; i++) {
 			windowList[i].z = i;
-			windowList[i].isActiveWindow = false;
+			windowList[i].isActiveWindow = (i === windowList.length - 1);
 		}
-		windowList[windowList.length-1].isActiveWindow = true;
 	}
 
 	Connections {
 		target: clipboardHandler
-		function onGotYouTubeLink(videoId) {
-			addWindow("YouTubeWindow", { "videoId": videoId });
+		function onGotLink(type, data) {
+			if (type==="youtube") {
+				addWindow("YouTubeWindow", { "videoId": data });
+			}
 		}
 	}
 }
