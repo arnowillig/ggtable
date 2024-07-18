@@ -5,6 +5,8 @@ import QtGraphicalEffects 1.0
 Item {
 	id: appPage
 	signal appClicked(string appId)
+	property bool elevated: false
+	property bool pressed: appPageMouseArea.pressed
 
 	Rectangle {
 		id: appPageBackground
@@ -13,7 +15,7 @@ Item {
 		color: "#20ffffff"
 		border.width: 1
 		border.color: "#80ffffff"
-		opacity: appPageMouseArea.pressed ? 1.0 : 0.125
+		opacity: appPage.elevated ? 1.0 : 0.0
 		Behavior on opacity { NumberAnimation { duration: 500 } }
 	}
 	MouseArea {
@@ -106,6 +108,7 @@ Item {
 						model: appPageItem.calculateColumns()[index]
 						delegate: GGAppItem {
 							id: appItem
+							scale: pressed ? 2.0 : appPage.elevated ? 1.1 : 1.0
 							text: appModel.get(appPageItem.calculateIndex(index, rowItem.rowIndex)).name
 							icon: appModel.get(appPageItem.calculateIndex(index, rowItem.rowIndex)).icon
 							onPressedChanged: { rowItem.z = pressed ? 1 : 0; }

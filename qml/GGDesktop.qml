@@ -66,18 +66,41 @@ Item {
 		}
 	}
 
-	GGAppPage {
-		id: appPage
+	ListView {
+		id: appPageListView
+		opacity: 1-screenSaver.opacity
 		width:  parent.width  - 128
 		height: parent.height - 128
 		anchors.centerIn: parent
-		opacity: 1-screenSaver.opacity
-		onAppClicked: {
-			console.log("APP CLICKED: ", appId);
-			if (appId==="com.bytefeed.gamegrid.screensaver") {
-				screenSaver.active = true;
+		contentWidth: width
+		contentHeight: height
+		orientation: ListView.Horizontal
+		snapMode: ListView.SnapToItem
+		model: 2
+		spacing: 128
+		cacheBuffer: 1920
+		interactive: model>1
+		delegate:
+		    GGAppPage {
+			id: appPage
+			elevated: appPageListView.flicking || appPageListView.dragging || pressed
+			width:  appPageListView.width
+			height: appPageListView.height
+			onAppClicked: {
+				console.log("APP CLICKED: ", appId);
+				if (appId==="com.bytefeed.gamegrid.screensaver") {
+					screenSaver.active = true;
+				}
 			}
 		}
+	}
+
+
+
+	GGClock {
+		id: ggClock
+		x: 100
+		y: 100
 	}
 
 }

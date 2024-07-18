@@ -14,5 +14,7 @@
         <file>qml/secrets.js</file>
         <file>qml/GGAppPage.qml</file>
         <file>qml/GGAppItem.qml</file>
+        <file>qml/GGClock.qml</file>
+        <file>qml/GGSurface.qml</file>
     </qresource>
 </RCC>
