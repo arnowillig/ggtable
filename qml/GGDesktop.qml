@@ -35,6 +35,7 @@ Item {
 		}
 		return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 	}
+
 	function addWindow(windowType, params) {
 		let component = Qt.createComponent(windowType + ".qml");
 		let obj = params;
@@ -64,4 +65,19 @@ Item {
 			}
 		}
 	}
+
+	GGAppPage {
+		id: appPage
+		width:  parent.width  - 128
+		height: parent.height - 128
+		anchors.centerIn: parent
+		opacity: 1-screenSaver.opacity
+		onAppClicked: {
+			console.log("APP CLICKED: ", appId);
+			if (appId==="com.bytefeed.gamegrid.screensaver") {
+				screenSaver.active = true;
+			}
+		}
+	}
+
 }

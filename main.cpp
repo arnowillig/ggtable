@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
 	app.installEventFilter(filter);
 
 	QZeroConf zeroconf;
-	zeroconf.startServicePublish("GameGrid", "_clipboard._tcp", nullptr, "local", 30564);
+	zeroconf.startServicePublish("GameGrid", "_clipboard._tcp", nullptr, "local", 8080);
 
-	Webserver webserver;
+	WebServer webserver;
 
 
 	QQmlApplicationEngine engine;

@@ -10,25 +10,36 @@ ClipboardHandler::ClipboardHandler(QObject *parent) : QObject(parent)
 	connect(_clipboard, &QClipboard::dataChanged, this, &ClipboardHandler::checkClipboard);
 }
 
+static QString extractYouTubeVideoId(const QString& url)
+{
+	static QRegularExpression regExp("(?:youtube\\.com.*(?:\\?|&|/)v=|youtu\\.be/)([^&#\\?]+)");
+	QRegularExpressionMatch match = regExp.match(url);
+	return match.hasMatch() ? match.captured(1) :  QString();
+}
+
 void ClipboardHandler::checkClipboard()
 {
 	const QMimeData* mimeData = _clipboard->mimeData();
 	if (mimeData->hasText()) {
-		static QRegularExpression youtubeRegex("https://youtu\\.be/([\\w-]+)(?:\\?[^\\s]*)?");
+		// https://youtu.be/eOR2QYy670k?si=PlhLtzoiRE2rx0kY
+		// https://youtube.com/watch?v=rrHtoux9zzQ&si=hUcp27Pw9FQV4jiY
+		// https://youtube.com/watch?v=LQ5p5501JhY&si=rdlNzsXNSQzzGG0W
+
 		QString text = mimeData->text();
 		if (text == content()) {
 			return;
 		}
 		setContent(text);
 
-		QRegularExpressionMatch match = youtubeRegex.match(text);
-
-		if (match.hasMatch()) {
-			QString videoId = match.captured(1);
+		QString videoId = extractYouTubeVideoId(text);
+		if (!videoId.isEmpty()) {
+			qDebug("*** Video ID: '%s'", qPrintable(videoId));
 			emit gotLink("youtube", videoId);
-		} else {
-			qDebug("Clipboard contains text: %s", qPrintable(text));
+			return;
+
 		}
+		qDebug("Clipboard contains text: %s", qPrintable(text));
+
 	}
 }
 

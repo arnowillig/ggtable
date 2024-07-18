@@ -13,7 +13,7 @@ Item {
     property real  dialogOpacity:  1.0
     property color dialogColor:    darkMode ? "#80000000" : "#80ffffff" // #8ecae6
     property color textColor:      darkMode ? "#ffffff" : "#444444"
-    property int   cornerRadius:   64
+    property int   cornerRadius:   48
     property int   blurRadius:     64 // 100
     property alias blurDialog: blurRect
     property alias blurSourceItem: blurSource.sourceItem

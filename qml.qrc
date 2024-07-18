@@ -12,5 +12,7 @@
         <file>qml/GGScreenSaver.qml</file>
         <file>qml/GGWallpaper.qml</file>
         <file>qml/secrets.js</file>
+        <file>qml/GGAppPage.qml</file>
+        <file>qml/GGAppItem.qml</file>
     </qresource>
 </RCC>

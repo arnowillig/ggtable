@@ -1,6 +1,6 @@
-var youtube = {
-	apiKey: "",
-	accessToken: "",
-	tvCode: ""
+const youtube = {
+	apiKey: "AIzaSyCp6kxGyb582iXXvDTI9lKCcPNsPBnnPlA",
+	accessToken: "ya29.a0AXooCguvecNCqzf6qX0XlsyN4DqW-zpYNpfu1Loj0kWEFMJV72bqyuLeULEBCuX4_ED9NWHAPxqEtGuCkf2wmiwDtYBbLZ8JkVxZy_T2uQGrhQz_FFcISWGKRlA2fUKNx6e03JfRT5-DtzT7fwTpqPKaEvJI052_DMmMaCgYKARwSARESFQHGX2MirFpmsQIFRkzTqZGUNqBhVQ0171",
+	tvCode: "123111123111"
 };
 

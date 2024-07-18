@@ -41,7 +41,7 @@ Item {
 		id: ggWindowRect
 		anchors.fill: parent
 		radius: parent.cornerRadius
-		color: "#ffffff"
+		color: "#444444"
 		opacity: 0.5
 		visible: false
 	}
@@ -127,8 +127,8 @@ Item {
 		anchors.fill: parent
 		radius: parent.cornerRadius
 		visible: parent.isActiveWindow
-		border.width: 4
-		border.color: "#c30c15"
+		border.width: 1
+		border.color: "#ffffff"
 	}
 	Rectangle {
 		id: dragIndicator
