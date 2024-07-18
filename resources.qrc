@@ -20,5 +20,6 @@
         <file>images/heroes3.png</file>
         <file>images/morris.svg</file>
         <file>images/plus.svg</file>
+        <file>images/clock.svg</file>
     </qresource>
 </RCC>

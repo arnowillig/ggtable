@@ -5,15 +5,18 @@ Item {
 	id: appItem
 	width: 96
 	height: 96
+	property string appId: ""
 	property alias text: appItemText.text
 	property string icon: ""
 	scale: pressed ? 2 : 1
 	z: pressed ? 1 : 0
 	property alias pressed: appItemMouseArea.pressed
+	default property alias childArea: contentItem.children
 	Behavior on scale { NumberAnimation {} }
 	signal clicked
 
 	Item {
+		id: contentItem
 		anchors.horizontalCenter: parent.horizontalCenter
 		width: 64
 		height: width

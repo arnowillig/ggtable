@@ -13,20 +13,38 @@ Item {
 	property int cornerRadius: 32
 	property int minWidth:  320
 	property int minHeight: 240
+	property bool showCloseButton: true
+	property bool showMaximizeButton: true
+	property bool allowResize: true
 	property bool isFullscreen: false
 	property bool isActiveWindow: false
+	property bool decorate: true
+	property bool deleteOnBorders: false
 	default property alias childArea: contentArea.children
 	property var lastSize: ({})
+	Behavior on opacity { NumberAnimation {} }
+	Behavior on scale { NumberAnimation {} }
+	onXChanged: { checkBorders(); }
+	onYChanged: { checkBorders(); }
 
 	signal resized()
 	signal clicked()
 	signal finished()
 
+	SequentialAnimation {
+		id: closeAnimation
+		ParallelAnimation {
+			NumberAnimation { target: ggWindow; property: "opacity"; to: 0; duration: 250; easing.type: Easing.InOutQuad }
+			NumberAnimation { target: ggWindow; property: "scale";   to: 0; duration: 250; easing.type: Easing.InOutQuad }
+		}
+		ScriptAction { script: {
+				parent.windowList = parent.windowList.filter(win => win !== ggWindow);
+				finished();
+				ggWindow.destroy();
+			} }
+	}
 	function close() {
-		opacity = 0;
-		parent.windowList = parent.windowList.filter(win => win !== ggWindow);
-		finished();
-		ggWindow.destroy();
+		closeAnimation.start();
 	}
 
 	function setActive() {
@@ -36,6 +54,17 @@ Item {
 	function onClicked() {
 		setActive();
 	}
+
+	function checkBorders() {
+		if (deleteOnBorders && parent) {
+			let tol = 2;
+			let onBorder = (x < tol || y < tol || x + width > parent.width - tol || y + height > parent.height - tol);
+			ggWindow.opacity = onBorder ? 0.2 : 1;
+			return onBorder;
+		}
+		return false;
+	}
+
 
 	Rectangle {
 		id: ggWindowRect
@@ -57,7 +86,7 @@ Item {
 		color:   "#40ffffff"
 		smooth:  true
 		enabled: true
-		visible: true
+		visible: ggWindow.decorate
 		cached: false
 		opacity: isActiveWindow ? 0.9 : 0.5
 	}
@@ -71,6 +100,8 @@ Item {
 		drag.minimumY: 0
 		drag.maximumY: ggWindow.parent.height - ggWindow.height
 		onPressed: { ggWindow.setActive(); }
+		onClicked: { ggWindow.clicked(); }
+		onReleased: { if (ggWindow.checkBorders()) { ggWindow.close(); } }
 	}
 
 	Item {
@@ -102,7 +133,7 @@ Item {
 		}
 		MouseArea {
 			id: resizeMouseArea
-			enabled: true // blurDialog.showResizeButton
+			enabled: ggWindow.allowResize
 			anchors.fill: parent
 			drag.target: parent
 			drag.axis: Drag.XAndYAxis
@@ -126,10 +157,12 @@ Item {
 		color: "transparent"
 		anchors.fill: parent
 		radius: parent.cornerRadius
-		visible: parent.isActiveWindow
+		visible: parent.isActiveWindow && ggWindow.decorate
 		border.width: 1
 		border.color: "#ffffff"
+
 	}
+
 	Rectangle {
 		id: dragIndicator
 		height: 8
@@ -171,7 +204,7 @@ Item {
 
 	GGCloseButton {
 		id: maxButton
-		visible: true // blurDialog.showResizeButton
+		visible: ggWindow.showMaximizeButton
 		isCloseButton: false
 		isMaxSize: (ggWindow.width === maxSizeW && ggWindow.height === maxSizeH)
 		anchors.top: ggWindow.top
@@ -196,12 +229,13 @@ Item {
 
 	GGCloseButton {
 		id: closeButton
+
 		anchors.top: ggWindow.top
 		anchors.right: ggWindow.right
 		onClicked: {
 			ggWindow.close();
 		}
-		visible: true // ggWindow.showCloseButton
+		visible: ggWindow.showCloseButton
 	}
 
 }

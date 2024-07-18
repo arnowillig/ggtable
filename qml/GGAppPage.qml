@@ -7,6 +7,13 @@ Item {
 	signal appClicked(string appId)
 	property bool elevated: false
 	property bool pressed: appPageMouseArea.pressed
+	property int pageIndex: -1
+
+	onPageIndexChanged: {
+		if (pageIndex!==1) {
+			appModel.clear();
+		}
+	}
 
 	Rectangle {
 		id: appPageBackground
@@ -15,7 +22,7 @@ Item {
 		color: "#20ffffff"
 		border.width: 1
 		border.color: "#80ffffff"
-		opacity: appPage.elevated ? 1.0 : 0.0
+		opacity: (appModel.count>0 && appPage.elevated) ? 1.0 : 0.0
 		Behavior on opacity { NumberAnimation { duration: 500 } }
 	}
 	MouseArea {
@@ -26,6 +33,7 @@ Item {
 	ListModel {
 		id: appModel
 		ListElement { appId: "com.bytefeed.gamegrid.browser"; name: "Internet"; icon: "chrome.svg" }
+		ListElement { appId: "com.bytefeed.gamegrid.clock"; name: "Clock"; icon: "clock.svg" }
 		ListElement { appId: "com.bytefeed.gamegrid.dice"; name: "Roll dice"; icon: "dice.svg" }
 		ListElement { appId: "com.bytefeed.gamegrid.heroes3"; name: "Heroes III"; icon: "heroes3.png" }
 		ListElement { appId: "com.bytefeed.gamegrid.chess"; name: "Chess"; icon: "chess.svg" }
@@ -36,7 +44,7 @@ Item {
 		ListElement { appId: "com.bytefeed.gamegrid.wingspan"; name: "Wingspan"; icon: "" }
 		ListElement { appId: "com.bytefeed.gamegrid.tickettoride"; name: "Ticket to Ride"; icon: "" }
 		ListElement { appId: "com.bytefeed.gamegrid.smallworld"; name: "SmallWorld"; icon: "" }
-		ListElement { appId: "com.bytefeed.gamegrid.browser"; name: "Heckmeck am Bratwurmeck"; icon: "heckmeck.jpg" }
+		ListElement { appId: "com.bytefeed.gamegrid.heckmeck"; name: "Heckmeck am Bratwurmeck"; icon: "heckmeck.jpg" }
 		ListElement { appId: "com.bytefeed.gamegrid.settings"; name: "Settings"; icon: "settings.svg" }
 		ListElement { appId: "com.bytefeed.gamegrid.screensaver"; name: "Screensaver"; icon: "sleepmode.svg" }
 		ListElement { appId: "com.bytefeed.gamegrid.add"; name: "Add app"; icon: "plus.svg" }
@@ -109,11 +117,14 @@ Item {
 						delegate: GGAppItem {
 							id: appItem
 							scale: pressed ? 2.0 : appPage.elevated ? 1.1 : 1.0
+							appId: appModel.get(appPageItem.calculateIndex(index, rowItem.rowIndex)).appId
 							text: appModel.get(appPageItem.calculateIndex(index, rowItem.rowIndex)).name
 							icon: appModel.get(appPageItem.calculateIndex(index, rowItem.rowIndex)).icon
 							onPressedChanged: { rowItem.z = pressed ? 1 : 0; }
-							onClicked: {
-								appPage.appClicked(appModel.get(appPageItem.calculateIndex(index, rowItem.rowIndex)).appId);
+							onClicked: { appPage.appClicked(appId); }
+							GGClockAppItem {
+								anchors.fill: parent
+								visible: appId==="com.bytefeed.gamegrid.clock"
 							}
 						}
 					}

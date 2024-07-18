@@ -16,5 +16,7 @@
         <file>qml/GGAppItem.qml</file>
         <file>qml/GGClock.qml</file>
         <file>qml/GGSurface.qml</file>
+        <file>qml/DiceWindow.qml</file>
+        <file>qml/GGClockAppItem.qml</file>
     </qresource>
 </RCC>

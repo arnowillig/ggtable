@@ -40,8 +40,8 @@ Item {
 		let component = Qt.createComponent(windowType + ".qml");
 		let obj = params;
 		obj.uuid = generateUUID();
-		obj.x = Math.floor(Math.random() * (ggDesktop.width  - 384));
-		obj.y = Math.floor(Math.random() * (ggDesktop.height - 266));
+		obj.x = 10 + Math.floor(Math.random() * (ggDesktop.width  - 384 - 20));
+		obj.y = 10 + Math.floor(Math.random() * (ggDesktop.height - 266 - 20));
 		obj.z = windowList.length + 1;
 		let window = component.createObject(ggDesktop, obj);
 		windowList.push(window);
@@ -76,13 +76,13 @@ Item {
 		contentHeight: height
 		orientation: ListView.Horizontal
 		snapMode: ListView.SnapToItem
-		model: 2
+		model: 3
 		spacing: 128
 		cacheBuffer: 1920
 		interactive: model>1
-		delegate:
-		    GGAppPage {
+		delegate: GGAppPage {
 			id: appPage
+			pageIndex: index
 			elevated: appPageListView.flicking || appPageListView.dragging || pressed
 			width:  appPageListView.width
 			height: appPageListView.height
@@ -91,16 +91,16 @@ Item {
 				if (appId==="com.bytefeed.gamegrid.screensaver") {
 					screenSaver.active = true;
 				}
+				if (appId==="com.bytefeed.gamegrid.browser") {
+					addWindow("YouTubeWindow", { "videoId": "f4s1h2YETNY" });
+				}
+				if (appId==="com.bytefeed.gamegrid.dice") {
+					addWindow("DiceWindow", {});
+				}
+				if (appId==="com.bytefeed.gamegrid.clock") {
+					addWindow("GGClock", {});
+				}
 			}
 		}
 	}
-
-
-
-	GGClock {
-		id: ggClock
-		x: 100
-		y: 100
-	}
-
 }
