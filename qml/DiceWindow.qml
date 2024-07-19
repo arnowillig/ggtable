@@ -4,18 +4,19 @@ import QtMultimedia 5.15
 
 GGWindow {
 	id: diceWindow
-	width: 128 // 220
-	height: 128 // 220
-	minWidth: 128 // 220
-	minHeight: 128 // 220
-	cornerRadius: 32
+	width: 64
+	height: 64
+	minWidth: 64
+	minHeight: 64
+	cornerRadius: 0
 	showCloseButton: false
 	showMaximizeButton: false
 	allowResize: false
 	decorate: false
 	deleteOnBorders: true
 	clip: true
-	property int pipSize: 24
+	property int pipSize: Math.floor(width/5.3333)
+	property int pipMargins: Math.floor(width/8)
 	property color diceColor: Qt.hsla(Math.random(), 0.75, 0.5, 0.75)
 	property color pipColor: Qt.darker(diceColor, 4)
 
@@ -98,8 +99,7 @@ GGWindow {
 
 	Rectangle {
 		id: diceRect
-		width: 128
-		height: 128
+		anchors.fill: parent
 		radius: 8
 		color: diceWindow.diceColor // "#ccffffff"
 		border.width: 1
@@ -148,7 +148,7 @@ GGWindow {
 			id: pip1
 			anchors.top: parent.top
 			anchors.left: parent.left
-			anchors.margins: 16
+			anchors.margins: diceWindow.pipMargins
 			width: diceWindow.pipSize
 			height: diceWindow.pipSize
 			radius: diceWindow.pipSize / 2
@@ -158,7 +158,7 @@ GGWindow {
 			id: pip2
 			anchors.top: parent.top
 			anchors.right: parent.right
-			anchors.margins: 16
+			anchors.margins: diceWindow.pipMargins
 			width: diceWindow.pipSize
 			height: diceWindow.pipSize
 			radius: diceWindow.pipSize / 2
@@ -168,7 +168,7 @@ GGWindow {
 			id: pip3
 			anchors.verticalCenter: parent.verticalCenter
 			anchors.left: parent.left
-			anchors.margins: 16
+			anchors.margins: diceWindow.pipMargins
 			width: diceWindow.pipSize
 			height: diceWindow.pipSize
 			radius: diceWindow.pipSize / 2
@@ -178,7 +178,7 @@ GGWindow {
 			id: pip4
 			anchors.verticalCenter: parent.verticalCenter
 			anchors.right: parent.right
-			anchors.margins: 16
+			anchors.margins: diceWindow.pipMargins
 			width: diceWindow.pipSize
 			height: diceWindow.pipSize
 			radius: diceWindow.pipSize / 2
@@ -188,7 +188,7 @@ GGWindow {
 			id: pip5
 			anchors.bottom: parent.bottom
 			anchors.left: parent.left
-			anchors.margins: 16
+			anchors.margins: diceWindow.pipMargins
 			width: diceWindow.pipSize
 			height: diceWindow.pipSize
 			radius: diceWindow.pipSize / 2
@@ -198,7 +198,7 @@ GGWindow {
 			id: pip6
 			anchors.bottom: parent.bottom
 			anchors.right: parent.right
-			anchors.margins: 16
+			anchors.margins: diceWindow.pipMargins
 			width: diceWindow.pipSize
 			height: diceWindow.pipSize
 			radius: diceWindow.pipSize / 2

@@ -16,6 +16,7 @@ Item {
 	property bool showCloseButton: true
 	property bool showMaximizeButton: true
 	property bool allowResize: true
+	property bool keepAspectRatio: false
 	property bool isFullscreen: false
 	property bool isActiveWindow: false
 	property bool decorate: true
@@ -27,9 +28,21 @@ Item {
 	onXChanged: { checkBorders(); }
 	onYChanged: { checkBorders(); }
 
+	signal reshaping()
 	signal resized()
+	signal moved()
 	signal clicked()
 	signal finished()
+
+	function startOpenAnim(finalY) {
+		openAnimation.to = finalY;
+		openAnimation.start();
+	}
+	NumberAnimation {
+		id: openAnimation
+		target: ggWindow;
+		property: 'y'; from: -ggWindow.height; to: 792; duration: 1000; easing.type: Easing.OutBounce;
+	}
 
 	SequentialAnimation {
 		id: closeAnimation
@@ -43,6 +56,7 @@ Item {
 				ggWindow.destroy();
 			} }
 	}
+
 	function close() {
 		closeAnimation.start();
 	}
@@ -65,7 +79,6 @@ Item {
 		return false;
 	}
 
-
 	Rectangle {
 		id: ggWindowRect
 		anchors.fill: parent
@@ -86,9 +99,10 @@ Item {
 		color:   "#40ffffff"
 		smooth:  true
 		enabled: true
-		visible: ggWindow.decorate
+		visible: opacity>0
 		cached: false
-		opacity: isActiveWindow ? 0.9 : 0.5
+		opacity: ggWindow.decorate ? isActiveWindow ? 0.9 : 0.5 : 0
+		Behavior on opacity { NumberAnimation { duration:  1000} }
 	}
 
 	MouseArea {
@@ -99,9 +113,9 @@ Item {
 		drag.maximumX: ggWindow.parent.width - ggWindow.width
 		drag.minimumY: 0
 		drag.maximumY: ggWindow.parent.height - ggWindow.height
-		onPressed: { ggWindow.setActive(); }
+		onPressed: { ggWindow.setActive(); ggWindow.reshaping(); }
 		onClicked: { ggWindow.clicked(); }
-		onReleased: { if (ggWindow.checkBorders()) { ggWindow.close(); } }
+		onReleased: { ggWindow.moved(); if (ggWindow.checkBorders()) { ggWindow.close(); } }
 	}
 
 	Item {
@@ -113,6 +127,10 @@ Item {
 		onXChanged: {
 			if (resizeMouseArea.pressed) {
 				ggWindow.width = x + width;
+				if (ggWindow.keepAspectRatio) {
+					resizeItem.y = resizeItem.x * (minWidth/minHeight);
+					ggWindow.height = ggWindow.width / (minWidth/minHeight);
+				}
 				resizeTimer.start();
 				ggWindow.setActive();
 			}
@@ -129,7 +147,7 @@ Item {
 			interval: 1000
 			repeat: false
 			running: false
-			onTriggered:  { ggWindow.resized(); }
+			//onTriggered:  { ggWindow.resized(); }
 		}
 		MouseArea {
 			id: resizeMouseArea
@@ -142,7 +160,7 @@ Item {
 			drag.maximumX: ggWindow.parent.width  - ggWindow.x - parent.width
 			drag.maximumY: ggWindow.parent.height - ggWindow.y - parent.height
 			onReleased: { resizeTimer.stop(); ggWindow.resized(); ggWindow.setActive(); }
-			onPressed: { ggWindow.setActive(); }
+			onPressed: { ggWindow.setActive(); ggWindow.reshaping(); }
 		}
 	}
 
@@ -157,10 +175,11 @@ Item {
 		color: "transparent"
 		anchors.fill: parent
 		radius: parent.cornerRadius
-		visible: parent.isActiveWindow && ggWindow.decorate
+		opacity: parent.isActiveWindow && ggWindow.decorate
+		visible: opacity>0
 		border.width: 1
 		border.color: "#ffffff"
-
+		Behavior on opacity { NumberAnimation { duration:  1000} }
 	}
 
 	Rectangle {
@@ -186,7 +205,7 @@ Item {
 		width: ggWindow.cornerRadius*2
 		height: ggWindow.cornerRadius*2
 		visible: opacity>0
-		opacity: resizeMouseArea.pressed ? 1 : 0
+		opacity: dragMouseArea.pressed || resizeMouseArea.pressed ? 1 : 0
 		Behavior on opacity { NumberAnimation {} }
 
 		Rectangle {

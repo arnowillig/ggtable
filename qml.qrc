@@ -18,5 +18,6 @@
         <file>qml/GGSurface.qml</file>
         <file>qml/DiceWindow.qml</file>
         <file>qml/GGClockAppItem.qml</file>
+        <file>qml/GGChessBoard.qml</file>
     </qresource>
 </RCC>

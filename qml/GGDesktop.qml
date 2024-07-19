@@ -38,15 +38,38 @@ Item {
 
 	function addWindow(windowType, params) {
 		let component = Qt.createComponent(windowType + ".qml");
+
 		let obj = params;
-		obj.uuid = generateUUID();
-		obj.x = 10 + Math.floor(Math.random() * (ggDesktop.width  - 384 - 20));
-		obj.y = 10 + Math.floor(Math.random() * (ggDesktop.height - 266 - 20));
+		obj.x = 10;
+		obj.y = 10;
 		obj.z = windowList.length + 1;
-		let window = component.createObject(ggDesktop, obj);
+		obj.uuid = generateUUID();
+		const incubator = component.incubateObject(ggDesktop, obj);
+		if (incubator.status !== Component.Ready) {
+			incubator.onStatusChanged = function(status) {
+				if (status === Component.Ready) {
+					finalizeWindow(incubator.object);
+				}
+			};
+		} else {
+			finalizeWindow(incubator.object);
+		}
+	}
+
+	function finalizeWindow(window) {
+		window.x = 10 + Math.floor(Math.random() * (ggDesktop.width  - window.width  - 20));
+		window.y = 10 + Math.floor(Math.random() * (ggDesktop.height - window.height - 20));
 		windowList.push(window);
 		setWindowActive(window);
+
+		let finalY = 10 + Math.floor(Math.random() * (ggDesktop.height - window.height - 20));
+
+		window.startOpenAnim(finalY);
+		appPageListView.animatePositionViewAtBeginning();
+		// appPageListView.positionViewAtIndex(0, ListView.Beginning, { animate: true });
+
 	}
+
 
 	function setWindowActive(window) {
 		windowList.splice(windowList.indexOf(window), 1);
@@ -100,7 +123,23 @@ Item {
 				if (appId==="com.bytefeed.gamegrid.clock") {
 					addWindow("GGClock", {});
 				}
+				if (appId==="com.bytefeed.gamegrid.chess") {
+					addWindow("GGChessBoard", {});
+				}
 			}
+		}
+
+
+		NumberAnimation {
+			id: rewindAnim
+			target: appPageListView
+			property: "contentX"
+			from: appPageListView.contentX
+			to: 0
+			duration: 300
+		}
+		function animatePositionViewAtBeginning() {
+			rewindAnim.start();
 		}
 	}
 }
