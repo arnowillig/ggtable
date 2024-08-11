@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QtWebEngineQuick/QtWebEngineQuick>
+// #include <QtWebEngineQuick/QtWebEngineQuick>
+#include <QQmlContext>
 #include "toucheventfilter.h"
 #include "clipboardhandler.h"
 #include "qtzeroconf/qzeroconf.h"
@@ -12,7 +13,7 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 	QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-	QtWebEngineQuick::initialize();
+//	QtWebEngineQuick::initialize();
 	QGuiApplication app(argc, argv);
 	ClipboardHandler clipboardHandler;
 

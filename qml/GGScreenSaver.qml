@@ -8,7 +8,7 @@ Item {
 	property string shader: "clouds" // kaleidoscope
 	property alias timeout: screensaverTimer.interval
 	Behavior on opacity { NumberAnimation { duration:  1000 } }
-	property var shaders: (["galaxy"]) // "water", "rainbow", "kaleidoscope", "clouds", "galaxy", "pinknoise"])
+	property var shaders: (["water"]) // "water", "rainbow", "kaleidoscope", "clouds", "galaxy", "pinknoise"])
 	onActiveChanged: {
 		if (active) {
 			shader = shaders[Math.floor(Math.random() * shaders.length)];
@@ -33,7 +33,7 @@ Item {
 		visible: opacity>0
 		anchors.fill: parent
 		blending: false
-		fragmentShader: "qrc:/shaders/" + screenSaver.shader + ".frag.qsb"
+		fragmentShader: "qrc:/shaders/" + screenSaver.shader + ".frag"
 		property size iResolution: Qt.size(width, height)
 		property real iTime: 0
 		property variant source: wallPaper
