@@ -1,5 +1,6 @@
 import QtQuick 2.12
-import QtGraphicalEffects 1.12
+// import QtGraphicalEffects 1.12
+import Qt5Compat.GraphicalEffects
 
 Item {
 	id: ggWindow
@@ -35,6 +36,7 @@ Item {
 	signal finished()
 
 	function startOpenAnim(finalY) {
+		openAnimation.duration = 750 + Math.floor(Math.random()*1500);
 		openAnimation.to = finalY;
 		openAnimation.start();
 	}

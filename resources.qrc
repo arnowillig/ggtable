@@ -21,5 +21,6 @@
         <file>images/morris.svg</file>
         <file>images/plus.svg</file>
         <file>images/clock.svg</file>
+        <file>shaders/galaxy.frag.qsb</file>
     </qresource>
 </RCC>

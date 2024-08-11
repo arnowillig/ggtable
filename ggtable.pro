@@ -1,4 +1,6 @@
-QT += quick virtualkeyboard webengine
+QT += quick virtualkeyboard
+
+greaterThan(QT_MAJOR_VERSION, 5): QT += core5compat webenginecore webenginequick
 
 CONFIG += c++11
 
@@ -34,3 +36,4 @@ CONFIG(devel) {
 	DEFINES += SCREEN_WIDTH=1920
 	DEFINES += SCREEN_HEIGHT=1080
 }
+

@@ -53,7 +53,7 @@ GGWindow {
 			name: "analogClockMode"
 			PropertyChanges { target: clockModeColumn; visible: false }
 			PropertyChanges { target: analogClockModeItem; visible: true }
-			PropertyChanges { target: ggClock; bgColor: "#08ffffff" }
+			PropertyChanges { target: ggClock; bgColor: "#00ffffff" }
 		}
 		// PropertyChanges { target: alarmTimer; tick: 0 }
 	]

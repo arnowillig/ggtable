@@ -10,7 +10,7 @@ Item {
 	Text {
 		id: clockText
 		anchors.centerIn: parent
-		anchors.verticalCenterOffset: parent.height*0.2
+		anchors.verticalCenterOffset: Math.min(parent.width, parent.height) * 0.2
 		font.pixelSize: Math.floor(fontSize)
 	}
 

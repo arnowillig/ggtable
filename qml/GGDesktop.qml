@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtWebEngine 1.11
 import QtWebChannel 1.7
-
 Item {
 	id: ggDesktop
 	property var windowList: ([])
@@ -36,23 +35,29 @@ Item {
 		return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 	}
 
-	function addWindow(windowType, params) {
+	function addWindow(windowType, params, cnt) {
 		let component = Qt.createComponent(windowType + ".qml");
 
-		let obj = params;
-		obj.x = 10;
-		obj.y = 10;
-		obj.z = windowList.length + 1;
-		obj.uuid = generateUUID();
-		const incubator = component.incubateObject(ggDesktop, obj);
-		if (incubator.status !== Component.Ready) {
-			incubator.onStatusChanged = function(status) {
-				if (status === Component.Ready) {
-					finalizeWindow(incubator.object);
-				}
-			};
-		} else {
-			finalizeWindow(incubator.object);
+		if (!cnt) {
+			cnt = 1;
+		}
+
+		for (let i=0; i<cnt; i++) {
+			let obj = params;
+			obj.x = 10;
+			obj.y = 10;
+			obj.z = windowList.length + 1;
+			obj.uuid = generateUUID();
+			const incubator = component.incubateObject(ggDesktop, obj);
+			if (incubator.status !== Component.Ready) {
+				incubator.onStatusChanged = function(status) {
+					if (status === Component.Ready) {
+						finalizeWindow(incubator.object);
+					}
+				};
+			} else {
+				finalizeWindow(incubator.object);
+			}
 		}
 	}
 
@@ -99,7 +104,7 @@ Item {
 		contentHeight: height
 		orientation: ListView.Horizontal
 		snapMode: ListView.SnapToItem
-		model: 3
+		model: 2
 		spacing: 128
 		cacheBuffer: 1920
 		interactive: model>1
@@ -118,7 +123,7 @@ Item {
 					addWindow("YouTubeWindow", { "videoId": "f4s1h2YETNY" });
 				}
 				if (appId==="com.bytefeed.gamegrid.dice") {
-					addWindow("DiceWindow", {});
+					addWindow("DiceWindow", {}, 6);
 				}
 				if (appId==="com.bytefeed.gamegrid.clock") {
 					addWindow("GGClock", {});

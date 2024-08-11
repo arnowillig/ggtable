@@ -65,7 +65,7 @@ void WebSocket::gotSslErrors(const QList<QSslError> &errors)
 void WebSocket::readClient()
 {
 	_data.append(readAll());
-	qDebug("%s::readClient() %d bytes",qPrintable(objectName()), _data.size());
+	qDebug("%s::readClient() %d bytes",qPrintable(objectName()), (int) _data.size());
 
 	if (_data.startsWith("POST")) {
 		int contentIndex = _data.indexOf("\r\n\r\n");
